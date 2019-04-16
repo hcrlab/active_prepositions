@@ -1,4 +1,3 @@
-# todo: git repo
 import ai2thor.controller
 import cv2  # save screengrabs
 import os
@@ -99,9 +98,9 @@ def save_layout(layout_list=None, wait=False, save_all=False):
 
 def main(layout=None, save_all=False):  # save rgb image of layout
     # view_layout('tomato in bowl')
-    save_layout(['tomato next to plate'])
+    # save_layout(['tomato next to plate'])
     # save_layout(['tomato up', 'tomato on plate'])
-    # save_layout(save_all=True)
+    save_layout(save_all=True)
 
 
 if __name__ == "__main__":
