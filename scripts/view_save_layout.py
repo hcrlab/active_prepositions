@@ -2,18 +2,10 @@ import ai2thor.controller
 import cv2
 import os
 import sys
+from .generate_layout import objectId_dict
 
 out_root = 'data'
 
-objectId_dict = {  # FloorPlan1 objectId_dict:
-    'apple': 'Apple|-00.47|+01.15|+00.48',  # gravity doesn't work on apple for some reason...
-    'bowl': 'Bowl|+00.23|+01.10|-00.62',
-    'cup': 'Cup|+00.37|+01.65|-02.58',
-    'kettle': 'Kettle|+01.04|+00.90|-02.60',
-    'plate': 'Plate|+00.96|+01.65|-02.61',
-    'potato': 'Potato|-01.66|+00.92|-02.15',
-    'tomato': 'Tomato|-00.39|+01.14|-00.81'
-}
 
 layout_dict = {
     # 'layout name': [[['object name 1', x1, y1, z1], ['object name 2', x2, y2, z2], ...],
@@ -55,7 +47,7 @@ def save_img(event, name):
     cv2.imwrite(os.path.join(out_root, name + '.png'), event.cv2img)
 
 
-def view_layout(layout, controller=None, wait=True):
+def viewr_layout(layout, controller=None, wait=True):
     # layout: layout that you would like to view
     # controller: feed in a controller, or leave as None to have the function create one. Providing a controller is
     # useful if you are viewing multiple layouts consecutively and want only one unity window
@@ -69,6 +61,9 @@ def view_layout(layout, controller=None, wait=True):
     else:
         controller.reset('FloorPlan1')
 
+    controller.step(dict(action='CreateObject', objectType='Tomato', randomizeObjectAppearance=False, objectVariation=1))
+    controller.step(dict(action='DropHandObject'))
+    controller.step(dict(action='TeleportObject', objectId='Tomato|1', x=-0.39, y=1.74, z=-0.81))
     event = arrange(controller, layout)
     if wait:
         input("press enter to close...")
@@ -101,7 +96,8 @@ def save_layout(*layouts, wait=False, save_all=False):
 
 
 def main():
-    save_layout(save_all=True)
+    view_layout('tomato up')
+    # save_layout(save_all=True)
 
 
 if __name__ == "__main__":
