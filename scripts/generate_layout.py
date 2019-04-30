@@ -18,7 +18,7 @@ def main():
     offscreen_z = -3  # set z to here to teleport object off-screen
     # should work for objects we're using... if object still visible, decrease number
     controller = ai2thor.controller.Controller(quality='High')
-    controller.start(player_screen_height=800, player_screen_width=1200)
+    controller.start(player_screen_height=640, player_screen_width=960) # 3:2, roughly 1000px wide
     controller.reset('FloorPlan1')
     controller.step(dict(action='Initialize', gridsize=0.25))
     # move unnecessary objects offscreen
