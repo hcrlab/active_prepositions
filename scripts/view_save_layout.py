@@ -2,10 +2,9 @@ import ai2thor.controller
 import cv2
 import os
 import sys
-from .generate_layout import objectId_dict
+from generate_layout import objectId_dict, player_screen_height, player_screen_width
 
 out_root = 'data'
-
 
 layout_dict = {
     # 'layout name': [[['object name 1', x1, y1, z1], ['object name 2', x2, y2, z2], ...],
@@ -47,7 +46,7 @@ def save_img(event, name):
     cv2.imwrite(os.path.join(out_root, name + '.png'), event.cv2img)
 
 
-def viewr_layout(layout, controller=None, wait=True):
+def view_layout(layout, controller=None, wait=True):
     # layout: layout that you would like to view
     # controller: feed in a controller, or leave as None to have the function create one. Providing a controller is
     # useful if you are viewing multiple layouts consecutively and want only one unity window
@@ -55,15 +54,17 @@ def viewr_layout(layout, controller=None, wait=True):
 
     if controller is None:
         controller = ai2thor.controller.Controller(quality='High')
-        controller.start(player_screen_height=800, player_screen_width=1200)
+        controller.start(player_screen_height=player_screen_height, player_screen_width=player_screen_width)
         controller.reset('FloorPlan1')
         controller.step(dict(action='Initialize', gridsize=0.25))
     else:
         controller.reset('FloorPlan1')
 
-    controller.step(dict(action='CreateObject', objectType='Tomato', randomizeObjectAppearance=False, objectVariation=1))
-    controller.step(dict(action='DropHandObject'))
-    controller.step(dict(action='TeleportObject', objectId='Tomato|1', x=-0.39, y=1.74, z=-0.81))
+    # how to create/teleport an object
+    # controller.step(
+    #     dict(action='CreateObject', objectType='Tomato', randomizeObjectAppearance=False, objectVariation=1))
+    # controller.step(dict(action='DropHandObject'))
+    # controller.step(dict(action='TeleportObject', objectId='Tomato|1', x=-0.39, y=1.74, z=-0.81))
     event = arrange(controller, layout)
     if wait:
         input("press enter to close...")

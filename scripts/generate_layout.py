@@ -12,13 +12,17 @@ objectId_dict = {  # FloorPlan1 objectId_dict:
     'tomato': 'Tomato|-00.39|+01.14|-00.81'
 }
 
+# 3:2, roughly 1000px wide
+player_screen_width = 960
+player_screen_height = 640
+
 
 def main():
     wait = True
     offscreen_z = -3  # set z to here to teleport object off-screen
     # should work for objects we're using... if object still visible, decrease number
     controller = ai2thor.controller.Controller(quality='High')
-    controller.start(player_screen_height=640, player_screen_width=960) # 3:2, roughly 1000px wide
+    controller.start(player_screen_height=player_screen_height, player_screen_width=player_screen_width)
     controller.reset('FloorPlan1')
     controller.step(dict(action='Initialize', gridsize=0.25))
     # move unnecessary objects offscreen
